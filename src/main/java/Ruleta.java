@@ -15,10 +15,6 @@ public class Ruleta {
             19, 21, 23, 25, 27, 30, 32, 34, 36
     };
 
-    public static void main(String[] args) {
-        menu();
-    }
-
     public static void menu() {
         Scanner in = new Scanner(System.in);
         int opcion;
