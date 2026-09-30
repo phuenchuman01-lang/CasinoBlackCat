@@ -55,8 +55,9 @@ public class VentanaLogin {
         if (!nombre.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Bienvenido a la mesa, " + nombre, "Éxito", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-
-            Ruleta.menu();
+            // Inicia la nueva ventana de menú
+            VentanaMenu menu = new VentanaMenu(nombre);
+            menu.mostrarVentana();
         } else {
             JOptionPane.showMessageDialog(frame, "Credenciales inválidas. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
