@@ -12,16 +12,20 @@ public class VentanaMenu {
         this.session = session;
         frame.setLayout(new BorderLayout());
 
-        JPanel panelBotones = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel panelBotones = new JPanel(new GridLayout(6, 1, 10, 10)); // Se aumentó una fila para el nuevo botón
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton btnJugar = new JButton("Jugar");
+        JButton btnHistorial = new JButton("Ver Historial"); // Nuevo Botón
         JButton btnRecargar = new JButton("Recargar Saldo");
         JButton btnCambiarNombre = new JButton("Modificar Perfil");
         JButton btnSalir = new JButton("Cerrar Sesión");
 
-        panelBotones.add(btnJugar); panelBotones.add(btnRecargar);
-        panelBotones.add(btnCambiarNombre); panelBotones.add(btnSalir);
+        panelBotones.add(btnJugar);
+        panelBotones.add(btnHistorial);
+        panelBotones.add(btnRecargar);
+        panelBotones.add(btnCambiarNombre);
+        panelBotones.add(btnSalir);
 
         JPanel panelInfo = new JPanel(new BorderLayout());
         panelInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -35,6 +39,7 @@ public class VentanaMenu {
         frame.setSize(600, 300); frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         btnJugar.addActionListener(e -> { frame.dispose(); new VentanaRuleta(session).mostrarVentana(); });
+        btnHistorial.addActionListener(e -> { frame.dispose(); new VentanaHistorial(session).mostrarVentana(); }); // Enlace a la ventana
         btnRecargar.addActionListener(e -> recargar());
         btnCambiarNombre.addActionListener(e -> cambiarNombre());
         btnSalir.addActionListener(e -> { session.cerrarSesion(); frame.dispose(); new VentanaLogin(session).mostrarVentana(); });
