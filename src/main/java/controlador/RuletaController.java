@@ -1,4 +1,5 @@
 package controlador;
+import modelo.Resultado;
 import modelo.Ruleta;
 import modelo.TipoApuesta;
 import modelo.Usuario;
@@ -14,12 +15,20 @@ public class RuletaController {
 
     public int realizarApuesta(TipoApuesta tipo, int monto) {
         Usuario u = session.getUsuarioActual();
-        if (!u.retirar(monto)) return -1; // Fondos insuficientes
+        if (!u.retirar(monto)) return -1; //Sin plata
 
         int numero = ruleta.girarRuleta();
-        if (ruleta.evaluarResultado(numero, tipo)) {
+        boolean victoria = ruleta.evaluarResultado(numero, tipo);
+
+        if (victoria) {
             u.depositar(monto * 2);
         }
+
+        // Se crea el objeto y se asocia a las clases requeridas
+        Resultado res = new Resultado(numero, tipo, monto, victoria);
+        u.agregarResultado(res);
+        ruleta.registrarResultado(res);
+
         return numero;
     }
 
