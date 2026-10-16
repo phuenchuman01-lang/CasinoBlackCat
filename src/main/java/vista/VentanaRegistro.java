@@ -48,7 +48,7 @@ public class VentanaRegistro {
         String pass = new String(txtClave.getPassword()).trim();
 
         try {
-            session.registrarUsuario(usr, pass, nombre); // El controlador valida
+            session.registrarUsuario(usr, pass, nombre);
             JOptionPane.showMessageDialog(frame, "Usuario registrado exitosamente. Puede iniciar sesión.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             volverLogin();
         } catch (IllegalArgumentException ex) {

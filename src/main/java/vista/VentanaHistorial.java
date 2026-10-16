@@ -27,7 +27,6 @@ public class VentanaHistorial {
         txtHistorial.setEditable(false);
         txtHistorial.setMargin(new Insets(10, 10, 10, 10));
 
-        // El controlador solicita la información
         List<Resultado> historial = controlador.obtenerHistorial();
         if (historial == null || historial.isEmpty()) {
             txtHistorial.setText("No hay jugadas registradas aún.");
