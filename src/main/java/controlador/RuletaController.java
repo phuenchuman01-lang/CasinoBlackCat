@@ -15,7 +15,7 @@ public class RuletaController {
 
     public int realizarApuesta(TipoApuesta tipo, int monto) {
         Usuario u = session.getUsuarioActual();
-        if (!u.retirar(monto)) return -1; //Sin plata
+        if (!u.retirar(monto)) return -1; //Shin plata
 
         int numero = ruleta.girarRuleta();
         boolean victoria = ruleta.evaluarResultado(numero, tipo);
@@ -24,7 +24,6 @@ public class RuletaController {
             u.depositar(monto * 2);
         }
 
-        // Se crea el objeto y se asocia a las clases requeridas
         Resultado res = new Resultado(numero, tipo, monto, victoria);
         u.agregarResultado(res);
         ruleta.registrarResultado(res);

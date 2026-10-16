@@ -11,7 +11,7 @@ public class VentanaLogin {
     private final JButton btnIngresar = new JButton("Ingresar");
     private final JButton btnRegistrar = new JButton("Registrar Jugador");
 
-    private final SessionController session; // Inyección de dependencia
+    private final SessionController session;
 
     public VentanaLogin(SessionController session) {
         this.session = session;
@@ -49,11 +49,10 @@ public class VentanaLogin {
         String u = txtUsuario.getText();
         String p = new String(txtClave.getPassword());
 
-        // El Controlador procesa, la Vista solo muestra el resultado
         if (session.iniciarSesion(u, p)) {
             JOptionPane.showMessageDialog(frame, "Bienvenido a la mesa, " + session.getNombreUsuario(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            VentanaMenu menu = new VentanaMenu(session); // Pasa la sesión correcta
+            VentanaMenu menu = new VentanaMenu(session);
             menu.mostrarVentana();
         } else {
             JOptionPane.showMessageDialog(frame, "Credenciales inválidas. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -62,7 +61,7 @@ public class VentanaLogin {
 
     private void abrirRegistro() {
         frame.dispose();
-        VentanaRegistro registro = new VentanaRegistro(session); // Pasa la sesión
+        VentanaRegistro registro = new VentanaRegistro(session);
         registro.mostrarVentana();
     }
 }
