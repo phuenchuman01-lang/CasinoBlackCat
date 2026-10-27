@@ -3,7 +3,6 @@ package vista;
 import controlador.EstadisticasController;
 import controlador.SessionController;
 import modelo.Estadisticas;
-import modelo.TipoApuesta;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,8 +33,8 @@ public class VentanaEstadisticas {
         if (stats == null || stats.getTotalJugadas() == 0) {
             txtEstadisticas.setText("Aún no tienes jugadas registradas para calcular métricas.");
         } else {
-            TipoApuesta tipoMasJugado = stats.getTipoMasJugado();
-            String tipoStr = (tipoMasJugado != null) ? tipoMasJugado.name() : "N/A";
+            String tipoMasJugado = stats.getTipoMasJugado();
+            String tipoStr = (tipoMasJugado != null) ? tipoMasJugado : "N/A";
 
             String reporte = String.format(
                     "Total de Jugadas    : %d\n" +

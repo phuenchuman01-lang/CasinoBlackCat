@@ -1,7 +1,7 @@
 package controlador;
+import modelo.ApuestaBase;
 import modelo.Resultado;
 import modelo.Ruleta;
-import modelo.TipoApuesta;
 import modelo.Usuario;
 
 public class RuletaController {
@@ -13,25 +13,25 @@ public class RuletaController {
         this.ruleta = new Ruleta();
     }
 
-    public int realizarApuesta(TipoApuesta tipo, int monto) {
+    // El controlador ahora recibe el objeto polimórfico
+    public Resultado realizarApuesta(ApuestaBase apuesta) {
         Usuario u = session.getUsuarioActual();
-        if (!u.retirar(monto)) return -1; //Shin plata
+        if (!u.retirar(apuesta.getMonto())) return null;
 
         int numero = ruleta.girarRuleta();
-        boolean victoria = ruleta.evaluarResultado(numero, tipo);
+        String color = ruleta.getColor(numero);
+
+        boolean victoria = apuesta.acierta(numero, color);
 
         if (victoria) {
-            u.depositar(monto * 2);
+            u.depositar(apuesta.getMonto() * 2);
         }
 
-        Resultado res = new Resultado(numero, tipo, monto, victoria);
+        Resultado res = new Resultado(numero, apuesta.getEtiqueta(), apuesta.getMonto(), victoria);
         u.agregarResultado(res);
         ruleta.registrarResultado(res);
+        session.guardarDatos(); // Guardamos el estado para persistencia
 
-        return numero;
-    }
-
-    public boolean esVictoria(int numero, TipoApuesta tipo) {
-        return ruleta.evaluarResultado(numero, tipo);
+        return res;
     }
 }
