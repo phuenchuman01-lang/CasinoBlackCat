@@ -1,7 +1,8 @@
 package vista;
 import controlador.RuletaController;
 import controlador.SessionController;
-import modelo.TipoApuesta;
+import modelo.*;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +10,7 @@ public class VentanaRuleta {
     private final JFrame frame = new JFrame("Juego de Ruleta");
     private final SessionController session;
     private final RuletaController controlador;
-    private JComboBox<TipoApuesta> cmbApuesta;
+    private JComboBox<String> cmbApuesta;
     private JTextField txtMonto;
     private JLabel lblResultado;
 
@@ -19,7 +20,8 @@ public class VentanaRuleta {
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
 
         panel.add(new JLabel("Tipo de apuesta:"));
-        cmbApuesta = new JComboBox<>(TipoApuesta.values());
+        String[] opciones = {"ROJO", "NEGRO", "PAR", "IMPAR"};
+        cmbApuesta = new JComboBox<>(opciones);
         panel.add(cmbApuesta);
 
         panel.add(new JLabel("Monto a apostar:"));
@@ -42,13 +44,24 @@ public class VentanaRuleta {
     private void jugar() {
         try {
             int monto = Integer.parseInt(txtMonto.getText());
-            TipoApuesta tipo = (TipoApuesta) cmbApuesta.getSelectedItem();
-            int numero = controlador.realizarApuesta(tipo, monto);
+            String seleccion = (String) cmbApuesta.getSelectedItem();
+            ApuestaBase apuesta = null;
 
-            if (numero == -1) { JOptionPane.showMessageDialog(frame, "Saldo insuficiente."); return; }
+            switch (seleccion) {
+                case "ROJO": apuesta = new ApuestaRojo(monto); break;
+                case "NEGRO": apuesta = new ApuestaNegro(monto); break;
+                case "PAR": apuesta = new ApuestaPar(monto); break;
+                case "IMPAR": apuesta = new ApuestaImpar(monto); break;
+            }
 
-            boolean gano = controlador.esVictoria(numero, tipo);
-            lblResultado.setText(String.format("Salió el %d | %s | Nuevo Saldo=$%d", numero, gano ? "GANASTE" : "PERDISTE", session.getUsuarioActual().getSaldo()));
+            Resultado res = controlador.realizarApuesta(apuesta);
+
+            if (res == null) {
+                JOptionPane.showMessageDialog(frame, "Saldo insuficiente.");
+                return;
+            }
+
+            lblResultado.setText(String.format("Salió el %d | %s | Nuevo Saldo=$%d", res.getNumero(), res.isVictoria() ? "GANASTE" : "PERDISTE", session.getUsuarioActual().getSaldo()));
         } catch (Exception ex) { JOptionPane.showMessageDialog(frame, "Monto inválido."); }
     }
 

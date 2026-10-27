@@ -46,17 +46,17 @@ public class Estadisticas {
         return maxRacha;
     }
 
-    public TipoApuesta getTipoMasJugado() {
+    public String getTipoMasJugado() {
         if (historial.isEmpty()) return null;
 
-        Map<TipoApuesta, Integer> conteo = new HashMap<>();
+        Map<String, Integer> conteo = new HashMap<>();
         for (Resultado r : historial) {
             conteo.put(r.getApuesta(), conteo.getOrDefault(r.getApuesta(), 0) + 1);
         }
 
-        TipoApuesta masJugado = null;
+        String masJugado = null;
         int max = -1;
-        for (Map.Entry<TipoApuesta, Integer> entry : conteo.entrySet()) {
+        for (Map.Entry<String, Integer> entry : conteo.entrySet()) {
             if (entry.getValue() > max) {
                 max = entry.getValue();
                 masJugado = entry.getKey();
